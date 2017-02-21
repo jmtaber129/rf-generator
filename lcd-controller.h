@@ -3,6 +3,7 @@
 
 class LcdController {
   public:
+    // Initialized the LCD's displayed frequency with 'initial_frequency'.
     LcdController(double initial_frequency);
 
     // Updates the LCD's displayed frequency with 'new_frequency'.

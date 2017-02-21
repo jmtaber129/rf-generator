@@ -24,6 +24,4 @@ class Si570RegisterCalculator {
     char reg12_;
 };
 
-
-
 #endif /* RF_GENERATOR_SI570_REGISTER_CALCULATOR_H_ */

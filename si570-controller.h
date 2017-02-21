@@ -5,12 +5,15 @@
 
 class Si570Controller {
   public:
-    Si570Controller(Si570RegisterCalculator* reg_calculator, double initial_frequency);
+    // Initializes SI570 chip with 'initial_frequency'.
+    Si570Controller(Si570RegisterCalculator* reg_calculator,
+        double initial_frequency);
 
     // Updates the SI570 chip with 'new_frequency' via I2C.
     void Update(double new_frequency);
 
   private:
+    // Used to calculate physical SI570 registers.
     Si570RegisterCalculator* reg_calculator_;
 };
 
