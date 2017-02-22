@@ -10,4 +10,4 @@ class Configuration {
     static void ConfigureClocks();
 };
 
-#endif /* RF_CONFIGURATION_H_ */
+#endif /* RF_GENERATOR_CONFIGURATION_H_ */
