@@ -1,5 +1,7 @@
 #include "si570-register-calculator.h"
 
+const double Si570RegisterCalculator::kInternalResonatorFrequency = 114.285;
+
 void Si570RegisterCalculator::UpdateFrequency(double new_frequency) {
   // TODO(jmtaber129): Calculate register values.
 }
@@ -27,3 +29,5 @@ char Si570RegisterCalculator::get_reg11() {
 char Si570RegisterCalculator::get_reg12() {
   return this->reg12_;
 }
+
+

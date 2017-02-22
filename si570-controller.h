@@ -5,11 +5,11 @@
 
 class Si570Controller {
   public:
-    // Initializes SI570 chip with 'initial_frequency'.
+    // Initializes SI570 chip with 'initial_frequency', in MHz.
     Si570Controller(Si570RegisterCalculator* reg_calculator,
         double initial_frequency);
 
-    // Updates the SI570 chip with 'new_frequency' via I2C.
+    // Updates the SI570 chip with 'new_frequency' in MHz via I2C.
     void Update(double new_frequency);
 
   private:

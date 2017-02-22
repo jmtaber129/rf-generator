@@ -3,7 +3,7 @@
 
 class Si570RegisterCalculator {
   public:
-    // Calculates SI570 register values for 'new_frequency'.
+    // Calculates SI570 register values for 'new_frequency', in MHz.
     void UpdateFrequency(double new_frequency);
 
     // Returns the 8-bit value for the corresponding SI570 register.
@@ -15,6 +15,9 @@ class Si570RegisterCalculator {
     char get_reg12();
 
   private:
+    // The frequency of the SI570's internal crystal resonator fxtal.
+    static const double kInternalResonatorFrequency;
+
     double current_frequency_;
     char reg7_;
     char reg8_;
