@@ -5,5 +5,5 @@ LcdController::LcdController(double initial_frequency) {
 }
 
 void LcdController::Update(double new_frequency) {
-  // Do stuff.
+  // TODO: Update the LCD.
 }
