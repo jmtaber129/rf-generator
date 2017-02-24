@@ -24,8 +24,6 @@ else // Otherwise leverage existing scripting environment and debug server.
   var script = env;
 }
 
-script.setCurrentDirectory("F:/Symlink-d folders/James/workspace_v6_1_3/rf-generator/");
-
 server.setConfig("./targetConfigs/MSP430G2553.ccxml");
 var session = server.openSession(".*");
 
