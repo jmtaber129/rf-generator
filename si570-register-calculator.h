@@ -10,7 +10,7 @@ class Si570RegisterCalculator {
     double get_frequency();
 
     // Returns the multiplier and divider values.
-    double get_rfreq();
+    long long get_rfreq();
     int get_n1();
     int get_hs_div();
 
@@ -38,7 +38,7 @@ class Si570RegisterCalculator {
     double current_frequency_;
 
     // Multiplier and divider values.
-    double rfreq_;
+    long long rfreq_;  // Decimal represented as a 38-bit integer.
     int n1_;
     int hs_div_;
 };

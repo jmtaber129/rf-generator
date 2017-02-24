@@ -31,9 +31,10 @@ void Si570RegisterCalculator::UpdateFrequency(double new_frequency) {
     }
   }
 
-  // Get the desired DCO frequency from desired frequency and dividers, then
-  // get RFREQ from DCO / Fxtal.
-  this->rfreq_ = (new_frequency * this->hs_div_ * this->n1_)
+  // Get the desired DCO frequency from desired frequency and dividers, get
+  // RFREQ from DCO / Fxtal, then get the integer representation by multiplying
+  // by 2^28 and trunctating the decimal.
+  this->rfreq_ = (new_frequency * this->hs_div_ * this->n1_) * 0x10000000
       / kInternalResonatorFrequency;
 }
 
@@ -41,7 +42,7 @@ double Si570RegisterCalculator::get_frequency() {
   return this->current_frequency_;
 }
 
-double Si570RegisterCalculator::get_rfreq() {
+long long Si570RegisterCalculator::get_rfreq() {
   return this->rfreq_;
 }
 
@@ -53,29 +54,33 @@ int Si570RegisterCalculator::get_hs_div() {
   return this->hs_div_;
 }
 
-// TODO(jmtaber129): Obtain physical register values from multiplier and
-// divider values.
 char Si570RegisterCalculator::get_reg7() {
-  return 0;
+  // {HS_DIV[2:0], N1[6:2]}.
+  return ((this->hs_div_ - 4) << 5) + ((this->n1_ - 1) >> 2);
 }
 
 char Si570RegisterCalculator::get_reg8() {
-  return 0;
+  // {N1[1:0], RFREQ[37:32]}.
+  return ((this->n1_ - 1) << 6) + (this->rfreq_ >> 32);
 }
 
 char Si570RegisterCalculator::get_reg9() {
-  return 0;
+  // {RFREQ[31:24]}.
+  return this->rfreq_ >> 24;
 }
 
 char Si570RegisterCalculator::get_reg10() {
-  return 0;
+  // {RFREQ[23:16]}.
+  return this->rfreq_ >> 16;
 }
 
 char Si570RegisterCalculator::get_reg11() {
-  return 0;
+  // {RFREQ[15:8]}.
+  return this->rfreq_ >> 8;
 }
 
 char Si570RegisterCalculator::get_reg12() {
-  return 0;
+  // {RFREQ[7:0]}.
+  return this->rfreq_;
 }
 
