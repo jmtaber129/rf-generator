@@ -64,7 +64,6 @@ try {
     session.expression.evaluate("test_freq = " + frequency);
     session.target.run();
 
-    //var rfreq = session.expression.evaluateToString("rfreq");
     var integer_rfreq = evaluate("rfreq");
     var rfreq = integer_rfreq / 268435456;
     var n1 = evaluate("n1");
