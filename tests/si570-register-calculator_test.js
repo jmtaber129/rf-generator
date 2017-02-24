@@ -1,9 +1,9 @@
 var ds;
  
-// Check to see if running from within CCSv4 Scripting Console
+// Check to see if running from within CCSv4 Scripting Console.
 var withinCCS = (ds !== undefined);
  
-// Create scripting environment and get debug server if running standalone
+// Create scripting environment and get debug server if running standalone.
 if (!withinCCS)
 {
   // Import the DSS packages into our namespace to save on typing
@@ -12,13 +12,13 @@ if (!withinCCS)
   importPackage(Packages.java.lang);
 
   // Create our scripting environment object - which is the main entry point into any script and
-  // the factory for creating other Scriptable ervers and Sessions
+  // the factory for creating other Scriptable ervers and Sessions.
   var script = ScriptingEnvironment.instance();
 
-  // Get the Debug Server and start a Debug Session
+  // Get the Debug Server and start a Debug Session.
   server = script.getServer("DebugServer.1");
 }
-else // otherwise leverage existing scripting environment and debug server
+else // Otherwise leverage existing scripting environment and debug server.
 {
   var server = ds;
   var script = env;
@@ -34,7 +34,7 @@ print("Opened session.");
 setActiveBuildConfig("rf-generator","3 si570-register-calculator_test");
 buildProject("rf-generator");
 
-print("Set build config.");
+print("Project built.");
 
 session.target.connect();
 
@@ -42,7 +42,7 @@ print("Connected to target.\n");
 
 session.memory.loadProgram("./si570-register-calculator_test/register-calculator_test.out");
 
-session.breakpoint.add("si570-register-calculator_test-driver.cc", 25);
+session.breakpoint.add("si570-register-calculator_test-driver.cc", 24);
 
 var testCounter = 0;
 var passingTestCounter = 0;

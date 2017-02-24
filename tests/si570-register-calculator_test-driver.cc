@@ -11,7 +11,6 @@ int hs_div;
 bool isTesting = true;
 
 void main(void) {
-
   WDTCTL = WDTPW + WDTHOLD;  // Stop WDT.
   DCOCTL = CALDCO_16MHZ;     // Set DCO.
   BCSCTL1 = CALBC1_16MHZ;
@@ -23,5 +22,4 @@ void main(void) {
     n1 = reg_calc.get_n1();
     hs_div = reg_calc.get_hs_div();
   }
-
 }
