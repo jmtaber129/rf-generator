@@ -38,9 +38,9 @@ print("Set build config.");
 
 session.target.connect();
 
-print("Connected to target.");
+print("Connected to target.\n");
 
-session.memory.loadProgram("./si570-register-calculator_test/reg-calc_test.out");
+session.memory.loadProgram("./si570-register-calculator_test/register-calculator_test.out");
 
 session.breakpoint.add("si570-register-calculator_test-driver.cc", 25);
 
@@ -72,12 +72,11 @@ function testFrequency(frequency) {
   
   testCounter++;
   if (Math.abs(resultant_freq - frequency) < 0.00001 && (dco_freq > DCO_MIN && dco_freq < DCO_MAX)) {
-    print("PASS.");
+    print("PASS.\n");
     passingTestCounter++;
   } else {
-    print("FAIL.");
+    print("FAIL.\n");
   }
-  print("");
 }
 
 testFrequency(140.0);
