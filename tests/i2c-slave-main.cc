@@ -7,19 +7,23 @@
 //  ACLK = n/a, MCLK = SMCLK = default DCO = ~1.2MHz
 //
 //                                /|\  /|\
-//               MSP430G2xx3      10k  10k     MSP430G2xx3
+//               MSP430G2553      10k  10k     MSP430G2553
 //                   slave         |    |        master
 //             -----------------   |    |  -----------------
-//           -|XIN  P3.1/UCB0SDA|<-|---+->|P3.1/UCB0SDA  XIN|-
+//           -|XIN  P1.7/UCB0SDA|<-|---+->|P1.7/UCB0SDA  XIN|-
 //            |                 |  |      |                 |
 //           -|XOUT             |  |      |             XOUT|-
-//            |     P3.2/UCB0SCL|<-+----->|P3.2/UCB0SCL     |
+//            |     P1.6/UCB0SCL|<-+----->|P1.6/UCB0SCL     |
 //            |                 |         |                 |
 //
 //  D. Dang
 //  Texas Instruments Inc.
 //  February 2011
 //   Built with CCS Version 4.2.0 and IAR Embedded Workbench Version: 5.10
+//
+//  Modified by James Taber
+//  Texas Tech University
+//  February 2017
 //******************************************************************************
 #include "msp430g2553.h"
 
@@ -50,7 +54,8 @@ void main(void)
     registers[RxBuffer[0] - 7] = RxBuffer[1];
 
     __no_operation();                       // Set breakpoint >>here<< and read
-  }                                         // read out the RxData buffer
+  }                                         // read out the RxData buffer or
+                                            // the 'registers' buffer.
 }
 
 //------------------------------------------------------------------------------
