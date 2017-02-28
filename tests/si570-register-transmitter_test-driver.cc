@@ -1,5 +1,5 @@
-// Register Calculator Driver used by si570-register-calculator_test.js.
-// Build config should only include si570-register-calculator.cc and this file.
+// Driver for Si570RegisterTransmitter.
+// Build config should only include si570-register-transmitter.cc and this file.
 
 #include "../si570-register-transmitter.h"
 #include "msp430g2553.h"
