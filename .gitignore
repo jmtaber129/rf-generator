@@ -1,5 +1,7 @@
 Debug
 si570-register-calculator_test
+si570-register-transmitter_test
+i2c-slave
 .xdchelp
 .config
 .launches
