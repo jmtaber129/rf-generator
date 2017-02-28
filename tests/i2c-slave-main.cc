@@ -26,6 +26,7 @@
 unsigned char *PRxData;                     // Pointer to RX data
 unsigned char RXByteCtr;
 volatile unsigned char RxBuffer[128];       // Allocate 128 byte of RAM
+volatile unsigned char registers[16];
 
 void main(void)
 {
@@ -46,6 +47,8 @@ void main(void)
     __bis_SR_register(CPUOFF + GIE);        // Enter LPM0 w/ interrupts
                                             // Remain in LPM0 until master
                                             // finishes TX
+    registers[RxBuffer[0] - 7] = RxBuffer[1];
+
     __no_operation();                       // Set breakpoint >>here<< and read
   }                                         // read out the RxData buffer
 }

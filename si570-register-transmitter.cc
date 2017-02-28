@@ -1,5 +1,4 @@
 #include "si570-register-transmitter.h"
-#include "i2c-lib/TI_USCI_I2C_master.h"
 #include "msp430g2553.h"
 
 Si570RegisterTransmitter::Si570RegisterTransmitter(unsigned char slave_address) {

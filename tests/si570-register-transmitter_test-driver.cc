@@ -9,8 +9,11 @@ void main(void) {
   DCOCTL = CALDCO_16MHZ;     // Set DCO.
   BCSCTL1 = CALBC1_16MHZ;
   Si570RegisterTransmitter transmitter(0x48);
-  while(true) {
-    transmitter.TransmitRegister(0x04, 'a');
-  }
+  transmitter.TransmitRegister(0x07, 'a');
+  transmitter.TransmitRegister(0x08, 'b');
+  transmitter.TransmitRegister(0x09, 'c');
+  transmitter.TransmitRegister(0x0a, 'd');
+  transmitter.TransmitRegister(0x0b, 'e');
+  transmitter.TransmitRegister(0x0c, 'f');
 
 }
