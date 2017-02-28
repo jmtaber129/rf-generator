@@ -79,7 +79,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tests/si570-register-transmitter_test-driver.cc|tests/si570-register-calculator_test-driver.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="tests/i2c-slave-main.cc|tests/si570-register-transmitter_test-driver.cc|tests/si570-register-calculator_test-driver.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
