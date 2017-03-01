@@ -37,7 +37,7 @@ unsigned char *PRxData;                     // Pointer to RX data
 unsigned char RXByteCtr;
 unsigned char reg_counter = 0;
 volatile unsigned char RxBuffer[128];       // Allocate 128 byte of RAM
-volatile Register registers[16];
+volatile Register registers[128];
 
 
 void main(void)
@@ -63,6 +63,10 @@ void main(void)
     registers[reg_counter].address = RxBuffer[0];
     registers[reg_counter].value = RxBuffer[1];
     ++reg_counter;
+
+    if (reg_counter >= 90) {
+      __no_operation();       // Set breakpoint here and check registers.
+    }
 
     __no_operation();                       // Set breakpoint >>here<< and read
   }                                         // read out the RxData buffer or
