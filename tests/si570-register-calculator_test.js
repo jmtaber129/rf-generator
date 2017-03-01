@@ -29,11 +29,6 @@ var session = server.openSession(".*");
 
 print("Opened session.");
 
-setActiveBuildConfig("rf-generator","3 si570-register-calculator_test");
-buildProject("rf-generator");
-
-print("Project built.");
-
 session.target.connect();
 
 print("Connected to target.\n");
