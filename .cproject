@@ -327,7 +327,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tests/i2c-slave-main.cc|si570-register-calculator.cc|tests/si570-register-calculator_test-driver.cc|si570-controller.cc|main.cc|lcd-controller.cc|configuration.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|si570-register-calculator.cc|tests/si570-register-calculator_test-driver.cc|si570-controller.cc|main.cc|lcd-controller.cc|configuration.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
