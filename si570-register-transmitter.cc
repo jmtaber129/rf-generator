@@ -3,6 +3,7 @@
 
 Si570RegisterTransmitter::Si570RegisterTransmitter(
     unsigned char slave_address) {
+  // TODO(jmtaber129): Consider moving this to a method in configuration.cc
   P1SEL |= BIT6 + BIT7;                     // Assign I2C pins to USCI_B0.
   P1SEL2 |= BIT6 + BIT7;                    // Assign I2C pins to USCI_B0.
   UCB0CTL1 |= UCSWRST;                      // Enable SW reset.
