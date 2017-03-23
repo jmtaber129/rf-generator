@@ -19,11 +19,11 @@ void main(void) {
   DCOCTL = CALDCO_16MHZ;     // Set DCO.
   BCSCTL1 = CALBC1_16MHZ;
 
-  P1SEL |= RXD + TXD; // P1.1 = RXD, P1.2 = TXD. P1.5 = ADC.
+  P1SEL |= RXD + TXD; // P1.1 = RXD, P1.2 = TXD.
   P1SEL2 |= RXD + TXD ; // P1.1 = RXD, P1.2=TXD.
   UCA0CTL1 |= UCSSEL_2; // SMCLK.
-  UCA0BR0 = 138; // 1MHz 115200.
-  UCA0BR1 = 0x00; // 1MHz 115200.
+  UCA0BR0 = 138; // 16MHz 115200.
+  UCA0BR1 = 0x00; // 16MHz 115200.
   UCA0MCTL = UCBRS_2 + UCBRS_1 + UCBRS_0; // Modulation UCBRSx = 5.
   UCA0CTL1 &= ~UCSWRST; // Initialize USCI state machine.
   IFG2 = 0;
@@ -33,26 +33,15 @@ void main(void) {
 
   Si570RegisterTransmitter transmitter(0x48);
   Si570RegisterCalculator calculator;
-  Si570Controller controller(&calculator, &transmitter, 50.0);  // Case 1.
+  // Initialize SI570 with 50.0MHz.
+  Si570Controller controller(&calculator, &transmitter, 50.0);
 
 
   while (true) {
     __bis_SR_register(LPM0_bits);
-    UCA0TXBUF = 'a';
+    UCA0TXBUF = 'a';  // Send back 'a' as confirmation.
     controller.Update(curr_freq);
   }
-
-/*
-  controller.Update(10.0);      // Case 2.
-  controller.Update(15.0);      // Case 3.
-  controller.Update(160.0);     // Case 4.
-  controller.Update(122.35);    // Case 5.
-  controller.Update(89.0);      // Case 6.
-  controller.Update(142.001);   // Case 7.
-  controller.Update(32.3325);   // Case 8.
-  controller.Update(67.23315);  // Case 9.
-  controller.Update(45.121);    // Case 10.
-*/
 }
 
 #pragma vector=USCIAB0RX_VECTOR
