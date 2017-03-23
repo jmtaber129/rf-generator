@@ -27,9 +27,6 @@ class Si570RegisterTransmitter {
 
     // The value to be transmitted
     static unsigned char transmit_value_;
-
-    // Whether the transmitter is currently transmitting.
-    static bool busy_;
 };
 
 #endif /* SI570_REGISTER_TRANSMITTER_H_ */

@@ -19,8 +19,6 @@ Si570RegisterTransmitter::Si570RegisterTransmitter(
 
 TransmitState Si570RegisterTransmitter::transmit_state_ = kTransmitRegister;
 
-bool Si570RegisterTransmitter::busy_ = false;
-
 unsigned char Si570RegisterTransmitter::transmit_register_ = 0x00;
 unsigned char Si570RegisterTransmitter::transmit_value_ = 0x00;
 
@@ -28,7 +26,6 @@ void Si570RegisterTransmitter::TransmitRegister(unsigned char register_address,
     unsigned char value) {
   // Ensure last transmission's stop condition was sent.
   while (UCB0CTL1 & UCTXSTP);
-  Si570RegisterTransmitter::busy_ = true;
 
   transmit_register_ = register_address;
   transmit_value_ = value;
@@ -38,41 +35,15 @@ void Si570RegisterTransmitter::TransmitRegister(unsigned char register_address,
   // Send a start condition.
   UCB0CTL1 |= UCTR + UCTXSTT;
   __bis_SR_register(CPUOFF + GIE);
-  // Wait for start condition to be sent and TX interrupt to be triggered.
-  //while (!(this->tx_ie_flag_));
-  //this->tx_ie_flag_ = false;
 
-  // Send 'register_address'.
-  //UCB0TXBUF = register_address;
-
-  // Wait for 'register_address' to be sent.
-  //while (!(this->tx_ie_flag_));
-  //this->tx_ie_flag_ = false;
-
-  // Send 'value'.
-  //UCB0TXBUF = value;
-
-  // Wait for 'value' to be sent.
-  //while (!(this->tx_ie_flag_));
-  //this->tx_ie_flag_ = false;
-
-  // Send stop condition.
-  //UCB0CTL1 |= UCTXSTP;
-
-  // Clear the interrupt flag.
-  //IFG2 &= ~UCB0TXIFG;
-
-  //while(Si570RegisterTransmitter::busy_);
+  // Function will not reach this point until after the stop condition has
+  // begun sending (i.e., once the CPUOFF bit is cleared in the interrupt after
+  // the kTransmitStop state returns true.
 
   return;
 }
 
-TransmitState buffer[5];
-int buffer_index = 0;
-
 bool Si570RegisterTransmitter::TxIsr() {
-  buffer[buffer_index] = transmit_state_;
-  buffer_index++;
   switch(Si570RegisterTransmitter::transmit_state_) {
     case kTransmitRegister: {
       // Send 'register_address'.
