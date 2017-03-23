@@ -9,6 +9,8 @@ void main(void) {
   DCOCTL = CALDCO_16MHZ;     // Set DCO.
   BCSCTL1 = CALBC1_16MHZ;
   Si570RegisterTransmitter transmitter(0x48);
+
+  __bis_SR_register(GIE);
   transmitter.TransmitRegister(0x07, 'a');
   transmitter.TransmitRegister(0x08, 'b');
   transmitter.TransmitRegister(0x09, 'c');
@@ -16,4 +18,11 @@ void main(void) {
   transmitter.TransmitRegister(0x0b, 'e');
   transmitter.TransmitRegister(0x0c, 'f');
 
+}
+
+#pragma vector = USCIAB0TX_VECTOR
+__interrupt void USCIAB0TX_ISR() {
+  if (Si570RegisterTransmitter::TxIsr()) {
+    __bic_SR_register_on_exit(CPUOFF);
+  }
 }
