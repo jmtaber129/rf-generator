@@ -1,5 +1,5 @@
 #include <msp430g2553.h>
-//hello world
+
 #include "configuration.h"
 #include "si570-controller.h"
 #include "si570-register-calculator.h"
