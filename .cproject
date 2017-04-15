@@ -79,7 +79,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|tests/si570-register-transmitter_test-driver.cc|tests/si570-register-calculator_test-driver.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="tests/i2c-address-finder.cc|tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|tests/si570-register-transmitter_test-driver.cc|tests/si570-register-calculator_test-driver.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -243,7 +243,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|si570-register-transmitter.cc|tests/si570-register-transmitter_test-driver.cc|si570-controller.cc|main.cc|lcd-controller.cc|configuration.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="tests/i2c-address-finder.cc|tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|si570-register-transmitter.cc|tests/si570-register-transmitter_test-driver.cc|si570-controller.cc|main.cc|lcd-controller.cc|configuration.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -327,7 +327,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|si570-register-calculator.cc|tests/si570-register-calculator_test-driver.cc|si570-controller.cc|main.cc|lcd-controller.cc|configuration.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="tests/i2c-address-finder.cc|tests/si570-controller_test-driver.cc|tests/i2c-slave-main.cc|si570-register-calculator.cc|tests/si570-register-calculator_test-driver.cc|si570-controller.cc|main.cc|lcd-controller.cc|configuration.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -497,7 +497,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="configuration.cc|lcd-controller.cc|main.cc|tests/i2c-slave-main.cc|tests/si570-register-transmitter_test-driver.cc|tests/si570-register-calculator_test-driver.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="tests/i2c-address-finder.cc|configuration.cc|lcd-controller.cc|main.cc|tests/i2c-slave-main.cc|tests/si570-register-transmitter_test-driver.cc|tests/si570-register-calculator_test-driver.cc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

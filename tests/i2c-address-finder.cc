@@ -27,6 +27,7 @@ int main(void) {
       __no_operation();
     }
   }
+  __no_operation();
 }
 
 
