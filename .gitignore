@@ -2,6 +2,7 @@ Debug
 si570-register-calculator_test
 si570-register-transmitter_test
 si570-controller_test
+i2c-address-finder
 i2c-slave
 .xdchelp
 .config
