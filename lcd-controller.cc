@@ -5,7 +5,9 @@
 
 LcdController::LcdController(double initial_frequency) {
   P1DIR |= 0xFF;
-  P1OUT &= 0x00;
+  P2DIR |= kRsBit + kRwBit + kEnableBit;
+  //P1OUT &= 0x00;
+  //P2OUT &= 0x00;
   this->SendChar(kFunctionSet1, true);
   this->SendChar(kFunctionSet2, true);
   this->SendChar(kFunctionSet3, true);
@@ -23,38 +25,49 @@ const unsigned char LcdController::kDisplayOn = 0xCu;
 const unsigned char LcdController::kDisplayClear = 0x01u;
 const unsigned char LcdController::kSetIncrement = 0x06u;
 
-const unsigned int LcdController::kRsBit = BIT4;
-const unsigned int LcdController::kRwBit = BIT5;
-const unsigned int LcdController::kEnableBit = BIT6;
+const unsigned int LcdController::kRsBit = BIT2;
+const unsigned int LcdController::kRwBit = BIT1;
+const unsigned int LcdController::kEnableBit = BIT0;
+
+const unsigned char LcdController::kBusyFlag = BIT0;
+
+const unsigned char LcdController::kNibbleLookup[16] = {
+    0x00,                       // 0x0.
+    BIT5,                       // 0x1.
+    BIT4,                       // 0x2.
+    BIT5 + BIT4,                // 0x3.
+    BIT3,                       // 0x4.
+    BIT3 + BIT5,                // 0x5.
+    BIT3 + BIT4,                // 0x6.
+    BIT3 + BIT4 + BIT5,         // 0x7.
+    BIT0,                       // 0x8.
+    BIT0 + BIT5,                // 0x9.
+    BIT0 + BIT4,                // 0xA.
+    BIT0 + BIT5 + BIT4,         // 0xB.
+    BIT0 + BIT3,                // 0xC.
+    BIT0 + BIT3 + BIT5,         // 0xD.
+    BIT0 + BIT3 + BIT4,         // 0xE.
+    BIT0 + BIT3 + BIT4 + BIT5   // 0xF.
+};
 
 void LcdController::Update(double new_frequency, int new_digit) {
-  this->curr_frequency_ = new_frequency;
-  this->curr_digit_ = new_digit;
-
   char freq_string[16];
-  int whole_num = curr_frequency_;
-  int decimal = curr_frequency_ * 1000 - whole_num * 1000;
+
+  int whole_num = new_frequency;
+  int decimal = new_frequency * 1000 - whole_num * 1000;
   std::sprintf(freq_string, "%.2d.%.3d MHz", whole_num, decimal);
+
   ClearDisplay();
   Write(freq_string);
-  // TODO: Update the digit.
+
   int arrow_column;
-  if (curr_digit_ < 3) {
-    arrow_column = curr_digit_;
+  if (new_digit < 2) {
+    arrow_column = new_digit;
   } else {
-    arrow_column = curr_digit_ + 1;
+    arrow_column = new_digit + 1;
   }
   SetPosition(/*row=*/1, arrow_column);
   Write("^");
-
-}
-
-void LcdController::UpdateFreq(double new_frequency) {
-  // TODO: Update the LCD.
-}
-
-void LcdController::UpdateDigit(int new_digit) {
-  // TODO: Update the LCD.
 }
 
 void LcdController::ClearDisplay() {
@@ -76,17 +89,29 @@ void LcdController::Write(char* str) {
     SendChar(*str, false);
     ++str;
   }
-
-  __no_operation();
 }
 
 void LcdController::SendChar(unsigned char c, bool is_instruction) {
   WaitUntilNotBusy();
   SetRw(false);
   SetRs(!is_instruction);
-  P1OUT = (P1OUT & 0xF0) | ((c >> 4) & 0x0F);  // Send higher nibble.
+
+  // Get the higher and lower nibbles in the char.
+  unsigned int high_index = (c >> 4) & 0x0F;
+  unsigned int low_index = (c & 0x0F);
+
+  // Map the char nibbles to the correct pins.
+  unsigned char high_nibble = kNibbleLookup[high_index];
+  unsigned char low_nibble = kNibbleLookup[low_index];
+
+  // Send the high nibble.
+  P1OUT &= 0xC6;
+  P1OUT |= high_nibble;
   DoWriteEdge();
-  P1OUT = (P1OUT & 0xF0) | (c & 0x0F);  // Send lower nibble.
+
+  // Send the low nibble.
+  P1OUT &= 0xC6;
+  P1OUT |= low_nibble;
   DoWriteEdge();
 }
 
@@ -103,46 +128,47 @@ void LcdController::DoReadEdge() {
 }
 
 void LcdController::WaitUntilNotBusy() {
-  P1DIR &= ~(BIT3);  // Set P1.3 as an input.
+  P1DIR &= ~(kBusyFlag);  // Set P1.3 as an input.
   SetRs(false);
   SetRw(true);
-  int delays = 0;
+
+  // Read and test the busy flag until the flag is not set.
   do {
     DoReadEdge();
-    ++delays;
-  } while ((P1IN & BIT3));
-  P1DIR |= BIT3;  // Set P1.3 as an output.
+  } while ((P1IN & kBusyFlag));
+
+  P1DIR |= kBusyFlag;  // Set P1.3 as an output.
 }
 
 void LcdController::Delay(int delay_time) {
   for (int i = 0; i <= delay_time; i++) {
     for (int j = 0; j < 100; j++) {
-      __no_operation();
+      __no_operation();  // NOP to make sure these loops get executed.
     }
   }
 }
 
 void LcdController::SetRs(bool rs) {
   if (rs) {
-    P1OUT |= kRsBit;
+    P2OUT |= kRsBit;
   } else {
-    P1OUT &= ~(kRsBit);
+    P2OUT &= ~(kRsBit);
   }
 }
 
 void LcdController::SetRw(bool rw) {
   if (rw) {
-    P1OUT |= kRwBit;
+    P2OUT |= kRwBit;
   } else {
-    P1OUT &= ~(kRwBit);
+    P2OUT &= ~(kRwBit);
   }
 }
 
 void LcdController::SetEnable(bool enable) {
   if (enable) {
-    P1OUT |= kEnableBit;
+    P2OUT |= kEnableBit;
   } else {
-    P1OUT &= ~(kEnableBit);
+    P2OUT &= ~(kEnableBit);
   }
 }
 

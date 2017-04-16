@@ -10,12 +10,6 @@ class LcdController {
     // active digit position with 'new_digit'.
     void Update(double new_frequency, int new_digit);
 
-    // Updates the LCD's displayed frequency with 'new_frequency'.
-    void UpdateFreq(double new_frequency);
-
-    // Updates the LCD's active digit position with 'new_digit', where 0
-    // corresponds to the 1kHz digit, and 4 corresponds to the 10MHz digit.
-    void UpdateDigit(int new_digit);
   private:
     // Clears the display.
     void ClearDisplay();
@@ -64,17 +58,16 @@ class LcdController {
     static const unsigned char kDisplayClear;
     static const unsigned char kSetIncrement;
 
-    // Control bits.
+    // Control bits (on Port 2).
     static const unsigned int kRsBit;
     static const unsigned int kRwBit;
     static const unsigned int kEnableBit;
 
-    // The current frequency.
-    double curr_frequency_;
+    // Bit for the busy flag (on Port 1).
+    static const unsigned char kBusyFlag;
 
-    // The current active digit position.  0 is 1kHz, 4 is 10MHz.
-    int curr_digit_;
-
+    // Lookup for mapping char nibbles to output pins.
+    static const unsigned char kNibbleLookup[16];
 };
 
 #endif /* RF_GENERATOR_LCD_CONTROLLER_H_ */
