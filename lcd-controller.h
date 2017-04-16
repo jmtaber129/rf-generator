@@ -34,11 +34,11 @@ class LcdController {
 
     // Performs a high-to-low transition of the enable signal, prompting a
     // write.
-    void DoHighToLow();
+    void DoWriteEdge();
 
     // Performs a low-to-high transition of the enable signal, prompting a
     // read.
-    void DoLowToHigh();
+    void DoReadEdge();
 
     // Blocks until the LCD is ready to receive a data or an instruction.
     void WaitUntilNotBusy();
@@ -63,6 +63,11 @@ class LcdController {
     static const unsigned char kDisplayOn;
     static const unsigned char kDisplayClear;
     static const unsigned char kSetIncrement;
+
+    // Control bits.
+    static const unsigned int kRsBit;
+    static const unsigned int kRwBit;
+    static const unsigned int kEnableBit;
 
     // The current frequency.
     double curr_frequency_;
