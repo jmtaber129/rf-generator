@@ -29,7 +29,7 @@ void main(void) {
 
     while(1){
       if(update == 1) {
-        update_LCD();   // Update Text displayed on LCD
+        //update_LCD();   // Update Text displayed on LCD
         update = 0;     // Reset update to 0
       }
     }
