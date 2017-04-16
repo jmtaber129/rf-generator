@@ -6,8 +6,7 @@
 LcdController::LcdController(double initial_frequency) {
   P1DIR |= 0xFF;
   P2DIR |= kRsBit + kRwBit + kEnableBit;
-  //P1OUT &= 0x00;
-  //P2OUT &= 0x00;
+
   this->SendChar(kFunctionSet1, true);
   this->SendChar(kFunctionSet2, true);
   this->SendChar(kFunctionSet3, true);
@@ -53,13 +52,17 @@ const unsigned char LcdController::kNibbleLookup[16] = {
 void LcdController::Update(double new_frequency, int new_digit) {
   char freq_string[16];
 
+  // Print the frequency to a string, with the form "XX.XXX MHz".
   int whole_num = new_frequency;
   int decimal = new_frequency * 1000 - whole_num * 1000;
   std::sprintf(freq_string, "%.2d.%.3d MHz", whole_num, decimal);
 
+  // Write the frequency string to the display.
   ClearDisplay();
   Write(freq_string);
 
+  // Determine the correct location of the active-digit arrow, and write the
+  // arrow to the display at that position.
   int arrow_column;
   if (new_digit < 2) {
     arrow_column = new_digit;
@@ -128,7 +131,7 @@ void LcdController::DoReadEdge() {
 }
 
 void LcdController::WaitUntilNotBusy() {
-  P1DIR &= ~(kBusyFlag);  // Set P1.3 as an input.
+  P1DIR &= ~(kBusyFlag);  // Set the busy bit as an input.
   SetRs(false);
   SetRw(true);
 
@@ -137,7 +140,7 @@ void LcdController::WaitUntilNotBusy() {
     DoReadEdge();
   } while ((P1IN & kBusyFlag));
 
-  P1DIR |= kBusyFlag;  // Set P1.3 as an output.
+  P1DIR |= kBusyFlag;  // Set the busy bit as an output.
 }
 
 void LcdController::Delay(int delay_time) {
@@ -171,5 +174,3 @@ void LcdController::SetEnable(bool enable) {
     P2OUT &= ~(kEnableBit);
   }
 }
-
-

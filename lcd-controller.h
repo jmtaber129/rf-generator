@@ -34,7 +34,7 @@ class LcdController {
     // read.
     void DoReadEdge();
 
-    // Blocks until the LCD is ready to receive a data or an instruction.
+    // Blocks until the LCD is ready to receive data or an instruction.
     void WaitUntilNotBusy();
 
     // Blocks for a period of time linear to 'delay_time'.
