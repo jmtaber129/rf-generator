@@ -26,13 +26,24 @@ void main(void) {
     A = (P2IN & CHA) ? 1 : 0;
     B = (P2IN & CHB) ? 1 : 0;
     __enable_interrupt();
-
+    char strings1[3][10] = {"Hello", "My", "Swag All"};
+    char strings2[3][10] = {"World", "Dudes", "Day"};
+    int index = 0;
+    while(true) {
+      if (index >= 3) {
+        index = 0;
+      }
+      update_LCD(strings1[index], strings2[index]);
+      ++index;
+    }
+/*
     while(1){
       if(update == 1) {
         //update_LCD();   // Update Text displayed on LCD
         update = 0;     // Reset update to 0
       }
     }
+    */
 }
 
  /*-----------------------------------------------------------------------------\\

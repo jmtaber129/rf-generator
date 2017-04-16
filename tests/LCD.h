@@ -66,14 +66,14 @@ void write_String(char *s){
   }
 }
 
-/*
-void update_LCD(void){
+
+void update_LCD(char* str1, char* str2){
   write_Instruction(0x01u); // Clear Display
-  write_String("");
-  write_String("");
-  write_Instruction(0xC6);
+  write_String(str1);
+  write_Instruction(0xC0);
+  write_String(str2);
 }
-*/
+
 
 void initialize_LCD(void) {
   P1DIR |= 0xFF;
