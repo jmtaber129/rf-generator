@@ -34,7 +34,7 @@ void LcdController::Update(double new_frequency, int new_digit) {
   char freq_string[16];
   int whole_num = curr_frequency_;
   int decimal = curr_frequency_ * 1000 - whole_num * 1000;
-  std::sprintf(freq_string, "%d.%d MHz", whole_num, decimal);
+  std::sprintf(freq_string, "%.2d.%.3d MHz", whole_num, decimal);
   ClearDisplay();
   Write(freq_string);
   // TODO: Update the digit.
@@ -111,11 +111,6 @@ void LcdController::WaitUntilNotBusy() {
     DoReadEdge();
     ++delays;
   } while ((P1IN & BIT3));
-  /*
-  while ((P1IN & BIT3) == 1) {
-    DoReadEdge();
-  }
-  */
   P1DIR |= BIT3;  // Set P1.3 as an output.
 }
 
