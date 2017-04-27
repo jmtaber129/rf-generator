@@ -4,7 +4,7 @@
 
 void TuningController::Init(double initial_freq, int initial_digit) {
   P2IE |= kPushButton + kEncoderA;
-  P2IES |= kPushButton;
+  P2IES &= kPushButton;
   P2IFG &= 0x00;
 
   curr_freq_ = initial_freq;
@@ -35,7 +35,7 @@ const double TuningController::kDeltaFrequencyLookup[5] = {
 void TuningController::UpdateTuning() {
   // Update active digit.
   if (P2IFG & kPushButton) {
-    if (curr_digit_ < 5) {
+    if (curr_digit_ < 4) {
       ++curr_digit_;
     } else {
       curr_digit_ = 0;
