@@ -31,17 +31,18 @@ void main(void) {
 
   __bis_SR_register(GIE);
 
-  Si570RegisterTransmitter transmitter(0x48);
+  Si570RegisterTransmitter transmitter(0x55);
   Si570RegisterCalculator calculator;
   // Initialize SI570 with 50.0MHz.
   Si570Controller controller(&calculator, &transmitter, 50.0);
-
-
+__no_operation();
+/*
   while (true) {
     __bis_SR_register(LPM0_bits);
     UCA0TXBUF = 'a';  // Send back 'a' as confirmation.
     controller.Update(curr_freq);
   }
+  */
 }
 
 #pragma vector=USCIAB0RX_VECTOR
