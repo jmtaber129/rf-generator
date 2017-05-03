@@ -5,6 +5,8 @@ si570-controller_test
 i2c-address-finder
 i2c-slave
 lcd-controller_test
+lcd-encoder-integration_test
+tuning-controller_test
 .xdchelp
 .config
 .launches
