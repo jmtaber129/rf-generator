@@ -47,9 +47,9 @@ int main(void) {
 
   __bis_SR_register(GIE);
 
-  Si570RegisterTransmitter transmitter(kSi570Address);
-  Si570RegisterCalculator calculator;
-  Si570Controller controller(&calculator, &transmitter, curr_freq);
+  Si570RegisterTransmitter si570_transmitter(kSi570Address);
+  Si570RegisterCalculator si570_calculator;
+  Si570Controller si570_controller(&si570_calculator, &si570_transmitter, curr_freq);
 
   TuningController::Init(curr_freq, curr_digit);
   LcdController lcd_controller(curr_freq);
@@ -74,7 +74,7 @@ int main(void) {
       curr_freq = TuningController::get_curr_freq();
       curr_digit = TuningController::get_curr_digit();
 
-      controller.Update(curr_freq);
+      si570_controller.Update(curr_freq);
       lcd_controller.Update(curr_freq, curr_digit);
     } else {
       __bis_SR_register(LPM0_bits);
@@ -89,7 +89,7 @@ int main(void) {
       }
 
       UCA0TXBUF = 'a';  // Send back 'a' as confirmation.
-      controller.Update(curr_freq);
+      si570_controller.Update(curr_freq);
       lcd_controller.Update(curr_freq, curr_digit);
     }
 
