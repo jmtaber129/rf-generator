@@ -1,12 +1,12 @@
 #include <msp430g2553.h>
 
+#include <stdlib.h>
 #include "configuration.h"
+#include "lcd-controller.h"
 #include "si570-controller.h"
 #include "si570-register-calculator.h"
 #include "si570-register-transmitter.h"
-#include "lcd-controller.h"
 #include "tuning-controller.h"
-#include <stdlib.h>
 
 #define TXD BIT2
 #define RXD BIT1
@@ -35,15 +35,15 @@ int main(void) {
 
   int curr_digit = kInitialDigit;
 
-  P1SEL |= RXD + TXD; // P1.1 = RXD, P1.2 = TXD.
-  P1SEL2 |= RXD + TXD ; // P1.1 = RXD, P1.2=TXD.
-  UCA0CTL1 |= UCSSEL_2; // SMCLK.
-  UCA0BR0 = 138; // 16MHz 115200.
-  UCA0BR1 = 0x00; // 16MHz 115200.
-  UCA0MCTL = UCBRS_2 + UCBRS_1 + UCBRS_0; // Modulation UCBRSx = 5.
-  UCA0CTL1 &= ~UCSWRST; // Initialize USCI state machine.
+  P1SEL |= RXD + TXD;                      // P1.1 = RXD, P1.2 = TXD.
+  P1SEL2 |= RXD + TXD;                     // P1.1 = RXD, P1.2=TXD.
+  UCA0CTL1 |= UCSSEL_2;                    // SMCLK.
+  UCA0BR0 = 138;                           // 16MHz 115200.
+  UCA0BR1 = 0x00;                          // 16MHz 115200.
+  UCA0MCTL = UCBRS_2 + UCBRS_1 + UCBRS_0;  // Modulation UCBRSx = 5.
+  UCA0CTL1 &= ~UCSWRST;                    // Initialize USCI state machine.
   IFG2 = 0;
-  UC0IE |= UCA0RXIE; // Enable USCI_A0 RX interrupt.
+  UC0IE |= UCA0RXIE;  // Enable USCI_A0 RX interrupt.
 
   __bis_SR_register(GIE);
 
@@ -60,7 +60,8 @@ int main(void) {
       // Wait until either the frequency/digit is different, or if we've
       // switched to the serial UI.
       while (TuningController::CheckUpdate(curr_freq, curr_digit) ||
-                                           !is_using_hardware_ui) {}
+             !is_using_hardware_ui) {
+      }
 
       // If we got past the while loop because we switched to the serial UI,
       // send an 'S' to show that we received the command, and stop executing
@@ -94,12 +95,10 @@ int main(void) {
       si570_controller.Update(curr_freq);
       lcd_controller.Update(curr_freq, curr_digit);
     }
-
   }
-
 }
 
-#pragma vector=USCIAB0RX_VECTOR
+#pragma vector = USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void) {
   if (!(IFG2 & UCA0RXIFG)) {
     return;
@@ -141,7 +140,6 @@ __interrupt void USCI0RX_ISR(void) {
   }
 }
 
-
 #pragma vector = USCIAB0TX_VECTOR
 __interrupt void USCIAB0TX_ISR() {
   if (Si570RegisterTransmitter::TxIsr()) {
@@ -149,10 +147,8 @@ __interrupt void USCIAB0TX_ISR() {
   }
 }
 
-#pragma vector=PORT2_VECTOR
-__interrupt void Port2(void) {
-  TuningController::UpdateTuning();
-}
+#pragma vector = PORT2_VECTOR
+__interrupt void Port2(void) { TuningController::UpdateTuning(); }
 
 void delay(int delay_time) {
   for (int i = 0; i <= delay_time; i++) {
