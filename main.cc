@@ -49,7 +49,8 @@ int main(void) {
 
   Si570RegisterTransmitter si570_transmitter(kSi570Address);
   Si570RegisterCalculator si570_calculator;
-  Si570Controller si570_controller(&si570_calculator, &si570_transmitter, curr_freq);
+  Si570Controller si570_controller(&si570_calculator, &si570_transmitter,
+                                   curr_freq);
 
   TuningController::Init(curr_freq, curr_digit);
   LcdController lcd_controller(curr_freq);
@@ -58,7 +59,8 @@ int main(void) {
     if (is_using_hardware_ui) {
       // Wait until either the frequency/digit is different, or if we've
       // switched to the serial UI.
-      while (TuningController::CheckUpdate(curr_freq, curr_digit) || !is_using_hardware_ui) {}
+      while (TuningController::CheckUpdate(curr_freq, curr_digit) ||
+                                           !is_using_hardware_ui) {}
 
       // If we got past the while loop because we switched to the serial UI,
       // send an 'S' to show that we received the command, and stop executing
