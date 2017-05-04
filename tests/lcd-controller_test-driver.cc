@@ -8,7 +8,7 @@ void main(void) {
   WDTCTL = WDTPW + WDTHOLD; // Stop WDT.
 
   delay(1000);
-  double freq = 14.234;
+  double freq = 10.000;
   LcdController lcd_controller(freq);
   __no_operation();
   while (true) {
