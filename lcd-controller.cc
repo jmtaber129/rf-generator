@@ -3,7 +3,7 @@
 #include <msp430g2553.h>
 #include <cstdio>
 
-LcdController::LcdController(double initial_frequency) {
+LcdController::LcdController(double initial_frequency, int initial_digit) {
   P1DIR |= 0xFF;
   P2DIR |= kRsBit + kRwBit + kEnableBit;
 
@@ -14,7 +14,7 @@ LcdController::LcdController(double initial_frequency) {
   this->ClearDisplay();
   this->SendChar(kSetIncrement, true);
 
-  this->Update(initial_frequency, /*digit=*/0);
+  this->Update(initial_frequency, initial_digit);
 }
 
 const unsigned char LcdController::kFunctionSet1 = 0x33u;
@@ -145,7 +145,7 @@ void LcdController::WaitUntilNotBusy() {
 
 void LcdController::Delay(int delay_time) {
   for (int i = 0; i <= delay_time; i++) {
-    for (int j = 0; j < 100; j++) {
+    for (int j = 0; j < 1600; j++) {
       __no_operation();  // NOP to make sure these loops get executed.
     }
   }

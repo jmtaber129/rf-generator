@@ -34,7 +34,7 @@ int main(void) {
   delay(1000);
 
   int curr_digit = kInitialDigit;
-
+/*
   P1SEL |= RXD + TXD;                      // P1.1 = RXD, P1.2 = TXD.
   P1SEL2 |= RXD + TXD;                     // P1.1 = RXD, P1.2=TXD.
   UCA0CTL1 |= UCSSEL_2;                    // SMCLK.
@@ -46,14 +46,14 @@ int main(void) {
   UC0IE |= UCA0RXIE;  // Enable USCI_A0 RX interrupt.
 
   __bis_SR_register(GIE);
-
+*/
   Si570RegisterTransmitter si570_transmitter(kSi570Address);
   Si570RegisterCalculator si570_calculator;
   Si570Controller si570_controller(&si570_calculator, &si570_transmitter,
                                    curr_freq);
 
   TuningController::Init(curr_freq, curr_digit);
-  LcdController lcd_controller(curr_freq);
+  LcdController lcd_controller(curr_freq, curr_digit);
 
   while (true) {
     if (is_using_hardware_ui) {
@@ -97,7 +97,7 @@ int main(void) {
     }
   }
 }
-
+/*
 #pragma vector = USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void) {
   if (!(IFG2 & UCA0RXIFG)) {
@@ -139,7 +139,7 @@ __interrupt void USCI0RX_ISR(void) {
     curr_freq = atof(rx_buffer);
   }
 }
-
+*/
 #pragma vector = USCIAB0TX_VECTOR
 __interrupt void USCIAB0TX_ISR() {
   if (Si570RegisterTransmitter::TxIsr()) {

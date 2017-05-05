@@ -18,8 +18,8 @@ int TuningController::curr_digit_= 0;
 
 const unsigned char TuningController::kPushButton = BIT3;
 
-const unsigned char TuningController::kEncoderA = BIT5;
-const unsigned char TuningController::kEncoderB = BIT4;
+const unsigned char TuningController::kEncoderA = BIT4;
+const unsigned char TuningController::kEncoderB = BIT5;
 
 const double TuningController::kMaxFreq = 20.0;
 const double TuningController::kMinFreq = 10.0;
